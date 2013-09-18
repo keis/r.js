@@ -225,11 +225,24 @@ define(['fs', 'path', 'prim'], function (fs, path, prim) {
 
         readFileAsync: function (path, encoding) {
             var d = prim();
-            try {
-                d.resolve(file.readFile(path, encoding));
-            } catch (e) {
-                d.reject(e);
+
+            if (encoding === 'utf-8') {
+                encoding = 'utf8';
             }
+            if (!encoding) {
+                encoding = 'utf8';
+            }
+
+            fs.readFile(path, encoding, function (e, text) {
+                if (e) {
+                    d.reject(e);
+                } else {
+                    if (text.indexOf('\uFEFF') === 0) {
+                        text = text.substring(1, text.length);
+                    }
+                    d.resolve(text);
+                }
+            });
             return d.promise;
         },
 
