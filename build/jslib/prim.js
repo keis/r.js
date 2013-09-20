@@ -55,7 +55,7 @@ var prim;
         });
     }
 
-    prim = function prim() {
+    prim = function prim(tag) {
         var p,
             ok = [],
             fail = [];
@@ -101,6 +101,7 @@ var prim;
                 return p;
             },
             reject: function (e) {
+                console.log('reject ' + tag);
                 if (check(p)) {
                     p.e = e;
                     notify(fail, e);
@@ -115,7 +116,7 @@ var prim;
 
             promise: {
                 then: function (yes, no) {
-                    var next = prim();
+                    var next = prim(tag + '-');
 
                     p.callback(function (v) {
                         try {

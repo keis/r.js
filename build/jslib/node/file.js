@@ -224,7 +224,7 @@ define(['fs', 'path', 'prim'], function (fs, path, prim) {
         },
 
         readFileAsync: function (path, encoding) {
-            var d = prim();
+            var d = prim('readFileAsync');
 
             if (encoding === 'utf-8') {
                 encoding = 'utf8';
